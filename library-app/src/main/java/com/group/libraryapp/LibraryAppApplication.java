@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class LibraryAppApplication {
-  // my second Spring practice
+  // my second Spring boot practice
 
   public static void main(String[] args) {
     SpringApplication.run(LibraryAppApplication.class, args);
