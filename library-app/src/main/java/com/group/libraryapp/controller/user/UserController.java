@@ -11,6 +11,6 @@ public class UserController {
 
     @PostMapping("/user") // POST /user
     public void saveUser(@RequestBody UserCreateRequest request) {
-        
+
     }
 }
