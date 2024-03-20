@@ -6,11 +6,13 @@ import kr.hs.dge.dgsw.ex1.dto.PageResultDTO;
 import kr.hs.dge.dgsw.ex1.entity.BoardEntity;
 import kr.hs.dge.dgsw.ex1.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +22,9 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public PageResultDTO<BoardDTO, BoardEntity> getList(PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("bno").descending());
-        return null;
+        Page<BoardEntity> result = boardRepository.findAll(pageable);
+        Function<BoardEntity, BoardDTO> fn = (entity -> entityToDTO(entity));
+        return new PageResultDTO<>(result, fn);
     }
 
     @Override
