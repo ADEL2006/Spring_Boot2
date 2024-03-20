@@ -1,9 +1,14 @@
 package kr.hs.dge.dgsw.ex1.service;
 
 import kr.hs.dge.dgsw.ex1.dto.BoardDTO;
+import kr.hs.dge.dgsw.ex1.dto.PageRequestDTO;
+import kr.hs.dge.dgsw.ex1.dto.PageResultDTO;
 import kr.hs.dge.dgsw.ex1.entity.BoardEntity;
 
 public interface BoardService {
+
+    PageResultDTO<BoardDTO, BoardEntity> getList(PageRequestDTO dto);
+
     Long register(BoardDTO dto);
 
     BoardDTO get(Long bno);
