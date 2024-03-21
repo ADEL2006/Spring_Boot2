@@ -2,6 +2,8 @@ package kr.hs.dge.dgsw.ex1.controller;
 
 import kr.hs.dge.dgsw.ex1.dto.BoardDTO;
 import kr.hs.dge.dgsw.ex1.dto.PageRequestDTO;
+import kr.hs.dge.dgsw.ex1.dto.PageResultDTO;
+import kr.hs.dge.dgsw.ex1.entity.BoardEntity;
 import kr.hs.dge.dgsw.ex1.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,7 +32,18 @@ public class BoardController {
     // localhost:8080/board/list?page=1&size=10
     // localhost:8080/board/list?page=2&size=20
     @GetMapping("/list")
-    public ResponseEntity lsit(PageRequestDTO requestDTO) {
-        return null;
+    public ResponseEntity list(PageRequestDTO requestDTO) {
+        PageResultDTO<BoardDTO, BoardEntity> result = boardService.getList(requestDTO);
+        return ResponseEntity.ok(result);
+    }
+    @PutMapping("")
+    public void modify(@RequestBody BoardDTO dto) {
+        boardService.modify(dto);
+    }
+
+    @DeleteMapping("/{bno}")
+    public String delete(@PathVariable("bno") long bno) {
+        boardService.remove(bno);
+        return "OK";
     }
 }

@@ -21,6 +21,9 @@ public class BoardEntity extends BaseEntity{
     @Column(length = 1500, nullable = false)
     private String content;
 
+    @ManyToOne
+    private MemberEntity member;
+
     public void changeTitle(String title) {
         this.title = title;
     }
