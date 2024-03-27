@@ -14,7 +14,7 @@ public class ReplyEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
     @Column(nullable = false)
-    private String Text;
+    private String text;
     @Column(nullable = false)
     private String replyer;
 
