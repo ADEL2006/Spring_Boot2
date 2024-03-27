@@ -3,6 +3,7 @@ package kr.hs.dge.dgsw.ex1.repository;
 import jakarta.persistence.Column;
 import jakarta.transaction.Transactional;
 import kr.hs.dge.dgsw.ex1.entity.BoardEntity;
+import kr.hs.dge.dgsw.ex1.entity.MemberEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,8 +19,25 @@ class BoardRepositoryTest {
     private BoardRepository boardRepository;
 
     @Test
+    void testInsert2() {
+        IntStream.rangeClosed(1, 100).forEach(i -> {
+            MemberEntity memberEntity =
+                    MemberEntity.builder()
+                            .email("user" + i + "@aaa.com")
+                            .build();
+            BoardEntity boardEntity =
+                    BoardEntity.builder()
+                            .title("title .... " + i)
+                            .content("content .... " + i)
+                            .member(memberEntity)
+                            .build();
+            boardRepository.save(boardEntity);
+        });
+    }
+
+    @Test
     void testInsert() {
-        IntStream.rangeClosed(0, 100).forEach(i -> {
+        IntStream.rangeClosed(1, 100).forEach(i -> {
             BoardEntity boardEntity =
             BoardEntity.builder()
                     .title("title .... " + i)
