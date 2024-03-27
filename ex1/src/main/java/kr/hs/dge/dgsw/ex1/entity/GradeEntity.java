@@ -17,8 +17,8 @@ public class GradeEntity extends BaseEntity{
     @Column(nullable = false)
     private int score;
 
-    @Column
-    private Long student_id;
+    @ManyToOne
+    private StudentEntity student;
 
 
 }

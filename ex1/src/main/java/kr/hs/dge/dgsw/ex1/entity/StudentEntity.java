@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class StudentEntity {
+public class StudentEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,11 +17,8 @@ public class StudentEntity {
     @Column(length = 255, nullable = false)
     private String name;
 
-    @Column
-    private Long school_id;
-
     @ManyToOne
-    private GradeEntity grade;
+    private SchoolEntity school;
 
 
 }
