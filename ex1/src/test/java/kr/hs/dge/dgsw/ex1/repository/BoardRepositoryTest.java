@@ -7,8 +7,12 @@ import kr.hs.dge.dgsw.ex1.entity.MemberEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Commit;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -69,7 +73,35 @@ class BoardRepositoryTest {
         if(result.isPresent()) {
             BoardEntity boardEntity = result.get();
             System.out.println(boardEntity);
-            // System.out.println(boardEntity.getMember());
+            System.out.println(boardEntity.getMember());
         }
+    }
+
+    @Test
+    void testRead2() {
+        Object result = boardRepository.getBoardWithMember(90L);
+        Object[] objects = (Object[]) result;
+        System.out.println(objects[0]);
+        System.out.println(objects[1]);
+    }
+
+    @Test
+    void testRead3() {
+        List<Optional[]> result = boardRepository.getBoardWithReply(2L);
+        result.forEach(objects -> {
+            System.out.println(objects[0]);
+            System.out.println(objects[1]);
+        });
+    }
+
+    @Test
+    void testRead4() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Object[]> result = boardRepository.getBoardWithReplyCount(pageable);
+        result.get().forEach(objects -> {
+            System.out.println(objects[0]);
+            System.out.println(objects[1]);
+            System.out.println(objects[2]); // reply count
+        });
     }
 }
