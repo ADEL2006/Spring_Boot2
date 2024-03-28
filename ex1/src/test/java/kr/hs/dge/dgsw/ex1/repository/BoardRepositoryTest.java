@@ -61,4 +61,13 @@ class BoardRepositoryTest {
 
         }
     }
+
+    @Test
+    void testRead1() {
+        Optional<BoardEntity> result = boardRepository.findById(100L);
+        if(result.isPresent()) {
+            BoardEntity boardEntity = result.get();
+            System.out.println(boardEntity);
+        }
+    }
 }

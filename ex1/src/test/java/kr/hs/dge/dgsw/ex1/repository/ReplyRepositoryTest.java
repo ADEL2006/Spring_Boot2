@@ -18,7 +18,7 @@ public class ReplyRepositoryTest {
     void tsetInsert() {
         IntStream.rangeClosed(1, 100)
                 .forEach(i -> {
-                    long bno = (long) (Math.random() * 100) + 4; // 1~100
+                    long bno = (long) (Math.random() * 100) + 1; // 1~100
                     BoardEntity boardEntity = BoardEntity.builder()
                             .bno(bno)
                             .build();
