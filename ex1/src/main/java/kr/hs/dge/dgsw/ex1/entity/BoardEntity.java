@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
+@ToString(exclude = "member")
 public class BoardEntity extends BaseEntity{
 
     @Id
@@ -22,7 +22,7 @@ public class BoardEntity extends BaseEntity{
     @Column(length = 1500, nullable = false)
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MemberEntity member;
 
     public void changeTitle(String title) {
