@@ -4,6 +4,7 @@ import kr.hs.dge.dgsw.ex1.dto.BoardDTO;
 import kr.hs.dge.dgsw.ex1.dto.PageRequestDTO;
 import kr.hs.dge.dgsw.ex1.dto.PageResultDTO;
 import kr.hs.dge.dgsw.ex1.entity.BoardEntity;
+import kr.hs.dge.dgsw.ex1.entity.MemberEntity;
 import kr.hs.dge.dgsw.ex1.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,10 +21,12 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
 
     @Override
-    public PageResultDTO<BoardDTO, BoardEntity> getList(PageRequestDTO requestDTO) {
+    public PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("bno").descending());
-        Page<BoardEntity> result = boardRepository.findAll(pageable);
-        Function<BoardEntity, BoardDTO> fn = (entity -> entityToDTO(entity));
+        // Function<BoardEntity, BoardDTO> fn = (entity -> entityToDTO(entity));
+        Function<Object[], BoardDTO> fn = objects -> entityToDTO((BoardEntity) objects[0], (MemberEntity) objects[1], (Long)objects[2]);
+        // Page<BoardEntity> result = boardRepository.findAll(pageable);
+        Page<Object[]> result = boardRepository.getBoardWithReplyCount(pageable);
         return new PageResultDTO<>(result, fn);
     }
 

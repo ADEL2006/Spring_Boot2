@@ -4,10 +4,11 @@ import kr.hs.dge.dgsw.ex1.dto.BoardDTO;
 import kr.hs.dge.dgsw.ex1.dto.PageRequestDTO;
 import kr.hs.dge.dgsw.ex1.dto.PageResultDTO;
 import kr.hs.dge.dgsw.ex1.entity.BoardEntity;
+import kr.hs.dge.dgsw.ex1.entity.MemberEntity;
 
 public interface BoardService {
 
-    PageResultDTO<BoardDTO, BoardEntity> getList(PageRequestDTO dto);
+    PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO dto);
 
     Long register(BoardDTO dto);
 
@@ -18,6 +19,7 @@ public interface BoardService {
     void remove(Long bno);
 
     default BoardDTO entityToDTO(BoardEntity entity) {
+
         return BoardDTO.builder()
                 .bno(entity.getBno())
                 .title(entity.getTitle())
@@ -28,10 +30,32 @@ public interface BoardService {
     }
 
     default BoardEntity dtoToEntity(BoardDTO dto){
+        MemberEntity memberEntity =
+                MemberEntity.builder()
+                .email(dto.getMemberEmail())
+                .build();
+
         return BoardEntity.builder()
                 .bno(dto.getBno())
                 .title(dto.getTitle())
                 .content(dto.getContent())
+                .member(memberEntity)
+                .build();
+    }
+
+    default BoardDTO entityToDTO(
+            BoardEntity boardEntity,
+            MemberEntity memberEntity,
+            Long replyCount) {
+        return BoardDTO.builder()
+                .bno(boardEntity.getBno())
+                .title(boardEntity.getTitle())
+                .content(boardEntity.getContent())
+                .createDate(boardEntity.getCreatedDate())
+                .modifiedDate(boardEntity.getModifiedDate())
+                .memberEmail(memberEntity.getEmail())
+                .memberName(memberEntity.getName())
+                .replyCount(replyCount)
                 .build();
     }
 }

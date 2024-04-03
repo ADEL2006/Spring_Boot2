@@ -22,5 +22,7 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
     @Query("SELECT b, m " + "FROM BoardEntity b " + "LEFT JOIN b.member m " + "WHERE b.bno=:bno") // JPQL
     Object getBoardWithMember(@Param("bno") Long bno);
 
+    @Query("SELECT b, w, count(r) " + "FROM BoardEntity b LEFT JOIN b.member w " + "LEFT JOIN ReplyEntity r ON r.board = b " + "WHERE b.bno=:bno")
+    Object getBoardByBno(@Param("bno") Long bno);
 
 }

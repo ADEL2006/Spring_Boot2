@@ -33,7 +33,7 @@ public class BoardController {
     // localhost:8080/board/list?page=2&size=20
     @GetMapping("/list")
     public ResponseEntity list(PageRequestDTO requestDTO) {
-        PageResultDTO<BoardDTO, BoardEntity> result = boardService.getList(requestDTO);
+        PageResultDTO<BoardDTO, Object[]> result = boardService.getList(requestDTO);
         return ResponseEntity.ok(result);
     }
     @PutMapping("")

@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.test.annotation.Commit;
 
 import java.util.List;
@@ -103,5 +104,15 @@ class BoardRepositoryTest {
             System.out.println(objects[1]);
             System.out.println(objects[2]); // reply count
         });
+    }
+
+    @Test
+    void testRead5() {
+        Long bno = 1L;
+        Object result = boardRepository.getBoardByBno(bno);
+        Object[] objects = (Object[]) result;
+        System.out.println(objects[0]);
+        System.out.println(objects[1]);
+        System.out.println(objects[2]);
     }
 }

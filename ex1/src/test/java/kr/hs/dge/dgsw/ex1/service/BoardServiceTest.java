@@ -18,7 +18,7 @@ class BoardServiceTest {
     @Test
     void testList() {
         PageRequestDTO requestDTO = new PageRequestDTO();
-        PageResultDTO<BoardDTO, BoardEntity> result = boardService.getList(requestDTO);
+        PageResultDTO<BoardDTO, Object[]> result = boardService.getList(requestDTO);
         result.getDtoList().forEach(dto -> System.out.println(dto));
     }
 }
