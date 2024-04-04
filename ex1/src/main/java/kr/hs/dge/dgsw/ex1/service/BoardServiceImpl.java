@@ -1,5 +1,6 @@
 package kr.hs.dge.dgsw.ex1.service;
 
+import jakarta.transaction.Transactional;
 import kr.hs.dge.dgsw.ex1.dto.BoardDTO;
 import kr.hs.dge.dgsw.ex1.dto.PageRequestDTO;
 import kr.hs.dge.dgsw.ex1.dto.PageResultDTO;
@@ -17,6 +18,7 @@ import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
 
@@ -39,9 +41,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardDTO get(Long bno) {
-        Optional<BoardEntity> result =
-        boardRepository.findById(bno);
-        return (result.isPresent())?entityToDTO(result.get()) : null;
+        // Optional<BoardEntity> result = boardRepository.findById(bno);
+        Object result = boardRepository.getBoardByBno(bno);
+        Object[] objects = (Object[]) result;
+        // SELCT b, m, count(r)
+        //      [0][1]  [2]
+        return entityToDTO((BoardEntity)objects[0], (MemberEntity)objects[1], (long)objects[2] );
     }
 
     @Override

@@ -16,6 +16,13 @@ class BoardServiceTest {
     private BoardService boardService;
 
     @Test
+    void testRead() {
+        Long bno = 1L;
+        BoardDTO boardDTO = boardService.get(bno);
+        System.out.println(boardDTO);
+    }
+
+    @Test
     void testList() {
         PageRequestDTO requestDTO = new PageRequestDTO();
         PageResultDTO<BoardDTO, Object[]> result = boardService.getList(requestDTO);
