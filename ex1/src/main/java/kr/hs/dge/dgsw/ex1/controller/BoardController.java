@@ -43,7 +43,8 @@ public class BoardController {
 
     @DeleteMapping("/{bno}")
     public String delete(@PathVariable("bno") long bno) {
-        boardService.remove(bno);
-        return "OK";
+//        boardService.remove(bno);
+        boardService.removeWithReplies(bno);
+        return "DELETE OK";
     }
 }
