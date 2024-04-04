@@ -28,4 +28,10 @@ class BoardServiceTest {
         PageResultDTO<BoardDTO, Object[]> result = boardService.getList(requestDTO);
         result.getDtoList().forEach(dto -> System.out.println(dto));
     }
+
+    @Test
+    void testDelete() {
+        Long bno = 1L;
+        boardService.removeWithReplies(bno);
+    }
 }

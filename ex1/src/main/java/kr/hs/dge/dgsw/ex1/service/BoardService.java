@@ -18,16 +18,18 @@ public interface BoardService {
 
     void remove(Long bno);
 
-    default BoardDTO entityToDTO(BoardEntity entity) {
+    void removeWithReplies(Long bno);
 
-        return BoardDTO.builder()
-                .bno(entity.getBno())
-                .title(entity.getTitle())
-                .content(entity.getContent())
-                .createDate(entity.getCreatedDate())
-                .modifiedDate(entity.getModifiedDate())
-                .build();
-    }
+//    default BoardDTO entityToDTO(BoardEntity entity) {
+//
+//        return BoardDTO.builder()
+//                .bno(entity.getBno())
+//                .title(entity.getTitle())
+//                .content(entity.getContent())
+//                .createDate(entity.getCreatedDate())
+//                .modifiedDate(entity.getModifiedDate())
+//                .build();
+//    }
 
     default BoardEntity dtoToEntity(BoardDTO dto){
         MemberEntity memberEntity =

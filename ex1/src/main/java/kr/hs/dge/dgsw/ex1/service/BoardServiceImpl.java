@@ -7,6 +7,7 @@ import kr.hs.dge.dgsw.ex1.dto.PageResultDTO;
 import kr.hs.dge.dgsw.ex1.entity.BoardEntity;
 import kr.hs.dge.dgsw.ex1.entity.MemberEntity;
 import kr.hs.dge.dgsw.ex1.repository.BoardRepository;
+import kr.hs.dge.dgsw.ex1.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.function.Function;
 @Transactional
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
+    private final ReplyRepository replyRepository;
 
     @Override
     public PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO requestDTO) {
@@ -63,6 +65,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void remove(Long bno) {
+        boardRepository.deleteById(bno);
+    }
+
+    @Override
+    public void removeWithReplies(Long bno) {
+        replyRepository.deleteByBno(bno);
         boardRepository.deleteById(bno);
     }
 }
