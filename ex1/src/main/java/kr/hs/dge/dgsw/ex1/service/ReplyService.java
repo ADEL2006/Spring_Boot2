@@ -7,8 +7,13 @@ import kr.hs.dge.dgsw.ex1.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 public interface ReplyService {
 
+    Long register(ReplyDTO dto);
+
+    List<ReplyDTO> getList(Long bno);
 
     default ReplyEntity dtoToEntity(ReplyDTO dto) {
         BoardEntity boardEntity = BoardEntity.builder().bno(dto.getBno()).build();
@@ -30,6 +35,4 @@ public interface ReplyService {
                 .build();
 
     }
-
-    Long register(ReplyDTO dto);
 }

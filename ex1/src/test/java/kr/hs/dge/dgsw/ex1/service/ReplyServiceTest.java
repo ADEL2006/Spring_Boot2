@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -14,10 +16,19 @@ class ReplyServiceTest {
 
     @Test
     void testRegister() {
-        ReplyDTO.builder()
+        ReplyDTO replyDTO = ReplyDTO.builder()
                 .bno(2L)
                 .text("test!!!")
                 .replyer("replyer")
                 .build();
+        replyService.register(replyDTO);
+    }
+
+    @Test
+    void testList() {
+        List<ReplyDTO> result = replyService.getList(2L);
+        result.forEach(dto -> {
+            System.out.println(dto);
+        });
     }
 }
