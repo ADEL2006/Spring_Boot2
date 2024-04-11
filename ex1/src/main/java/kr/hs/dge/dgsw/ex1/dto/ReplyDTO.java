@@ -1,10 +1,15 @@
 package kr.hs.dge.dgsw.ex1.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
+@ToString
 public class ReplyDTO {
     private Long rno;
     private String text;
