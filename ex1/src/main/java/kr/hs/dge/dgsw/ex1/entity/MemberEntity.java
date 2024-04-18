@@ -14,7 +14,11 @@ import lombok.*;
 public class MemberEntity extends BaseEntity {
     @Id
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String name;
 
     @Enumerated(value = EnumType.STRING)
