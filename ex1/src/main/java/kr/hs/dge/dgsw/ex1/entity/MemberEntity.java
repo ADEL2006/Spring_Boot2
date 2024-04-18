@@ -1,9 +1,7 @@
 package kr.hs.dge.dgsw.ex1.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import kr.hs.dge.dgsw.ex1.entity.enums.MemberRole;
 import lombok.*;
 
 @Entity
@@ -16,10 +14,9 @@ import lombok.*;
 public class MemberEntity extends BaseEntity {
     @Id
     private String email;
-
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private String name;
+
+    @Enumerated(value = EnumType.STRING)
+    private MemberRole role;
 }
