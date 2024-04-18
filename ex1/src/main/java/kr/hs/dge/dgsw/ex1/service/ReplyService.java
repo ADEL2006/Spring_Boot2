@@ -15,6 +15,10 @@ public interface ReplyService {
 
     List<ReplyDTO> getList(Long bno);
 
+    void modify(ReplyDTO dto);
+
+    void remove (Long rno);
+
     default ReplyEntity dtoToEntity(ReplyDTO dto) {
         BoardEntity boardEntity = BoardEntity.builder().bno(dto.getBno()).build();
         return ReplyEntity.builder()

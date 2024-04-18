@@ -30,4 +30,14 @@ public class ReplyServiceImpl implements ReplyService{
 
     }
 
+    @Override
+    public void modify(ReplyDTO replyDTO) {
+        ReplyEntity replyEntity = dtoToEntity(replyDTO);
+        replyRepository.save(replyEntity);
+    }
+
+    @Override
+    public void remove(Long rno) {
+        replyRepository.deleteById(rno);
+    }
 }
