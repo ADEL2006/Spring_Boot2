@@ -1,5 +1,6 @@
 package kr.hs.dge.dgsw.ex1.security;
 
+import kr.hs.dge.dgsw.ex1.dto.Member;
 import kr.hs.dge.dgsw.ex1.entity.MemberEntity;
 import kr.hs.dge.dgsw.ex1.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 //        if(result.isEmpty()){
 //            throw new UsernameNotFoundException("User not found with username: " + username);
 //        }
-        return null;
+        Member member = Member.builder()
+                .email(memberEntity.getEmail())
+                .password(memberEntity.getPassword())
+                .name(memberEntity.getName())
+                .role(memberEntity.getRole())
+                .build();
+
+        return new CustomUserDetails(member);
     }
 }
