@@ -1,12 +1,17 @@
 package kr.hs.dge.dgsw.ex1.security;
 
 import kr.hs.dge.dgsw.ex1.dto.Member;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+@Getter
 public class CustomUserDetails implements UserDetails {
 
     private final Member member;
@@ -14,11 +19,20 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(Member member) {
         this.member = member;
+        this.authorities = Collections.singleton(new SimpleGrantedAuthority(member.getRole().getKey()));
+//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+//        grantedAuthorities.add(
+//                new SimpleGrantedAuthority(
+//                        member.getRole().getKey()
+//                )
+//        );
+//        this.authorities = grantedAuthorities;
+//        member.getRole().getKey(); // ROLE_USER
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override
@@ -33,21 +47,21 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
