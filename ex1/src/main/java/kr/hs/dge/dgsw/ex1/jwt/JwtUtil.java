@@ -1,5 +1,6 @@
 package kr.hs.dge.dgsw.ex1.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import kr.hs.dge.dgsw.ex1.dto.Member;
@@ -39,5 +40,12 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS384, jwtProperties.getSecretKey())
                 .compact();
         return refreshToken;
+    }
+
+    public Claims getClaims(String token) {
+        Jwts.parser().setSigningKey(jwtProperties.getSecretKey())
+                .parseClaimsJws(token)
+                .getBody();
+        return null;
     }
 }
