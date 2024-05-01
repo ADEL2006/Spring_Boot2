@@ -1,5 +1,6 @@
 package kr.hs.dge.dgsw.ex1.jwt;
 
+import io.jsonwebtoken.Claims;
 import kr.hs.dge.dgsw.ex1.jwt.properties.JwtProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,15 @@ class JwtUtilTest {
 
         String refreshToken = jwtUtil.generateRefreshToken("user1@aaa.com");
         System.out.println(refreshToken);
+    }
+
+    @Test
+    void testClaims() {
+        String accessToken = jwtUtil
+                .generateAccessToken("user1@aaa.com");
+
+        Claims claims = jwtUtil.getClaims(accessToken);
+
+        System.out.println(claims.getSubject());
     }
 }

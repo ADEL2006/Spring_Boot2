@@ -1,8 +1,7 @@
 package kr.hs.dge.dgsw.ex1.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.SignatureException;
 import kr.hs.dge.dgsw.ex1.dto.Member;
 import kr.hs.dge.dgsw.ex1.jwt.properties.JwtProperties;
 import kr.hs.dge.dgsw.ex1.repository.MemberRepository;
@@ -43,9 +42,21 @@ public class JwtUtil {
     }
 
     public Claims getClaims(String token) {
-        Jwts.parser().setSigningKey(jwtProperties.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody();
-        return null;
+        try {
+            return Jwts.parser()
+                    .setSigningKey(jwtProperties.getSecretKey())
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new IllegalArgumentException("Expired JWT token");
+        } catch (UnsupportedJwtException e) {
+            throw new IllegalArgumentException("Unsupported JWT token");
+        } catch (MalformedJwtException e) {
+            throw new IllegalArgumentException("Invalid JWT token");
+        } catch (SignatureException e) {
+            throw new IllegalArgumentException("Invalid JWT token");
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("JWT claims string is empty");
+        }
     }
 }
