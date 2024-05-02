@@ -3,9 +3,15 @@ package kr.hs.dge.dgsw.ex1.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import kr.hs.dge.dgsw.ex1.dto.Member;
+import kr.hs.dge.dgsw.ex1.entity.MemberEntity;
 import kr.hs.dge.dgsw.ex1.jwt.properties.JwtProperties;
 import kr.hs.dge.dgsw.ex1.repository.MemberRepository;
+import kr.hs.dge.dgsw.ex1.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -58,5 +64,23 @@ public class JwtUtil {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("JWT claims string is empty");
         }
+    }
+
+    public Authentication getAuthentication(String token) {
+        Claims claims = getClaims(token);
+        String email = claims.getSubject();
+        MemberEntity memberEntity = memberRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        // MemberEntity -> Member
+        Member member = Member.builder()
+                .email(memberEntity.getEmail())
+                .password(memberEntity.getPassword())
+                .name(memberEntity.getName())
+                .role(memberEntity.getRole())
+                .build();
+
+        // 사용자 인증 및 권한 정보를 담는 객체
+        CustomUserDetails customUserDetails = new CustomUserDetails(member);
+        return new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+        // return Authentication
     }
 }
