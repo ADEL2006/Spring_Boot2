@@ -31,7 +31,7 @@ public class SecurityConfig {
         // CSRF 비활성
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                 authoeize ->
-                        authoeize.anyRequest().authenticated()
+                        authoeize.requestMatchers("/auth/**").anyRequest().authenticated()
         ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authenticationProvider(authenticationProvider()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
