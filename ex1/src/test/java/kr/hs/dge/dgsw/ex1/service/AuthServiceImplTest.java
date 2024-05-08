@@ -24,4 +24,11 @@ class AuthServiceImplTest {
         System.out.println();
         System.out.println(jsonWebTokenResponse.getRefreshToken());
     }
+
+    @Test
+    void testRefreshToken() {
+        String refreshToken = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ1c2VyMTAwQGFhYS5jb20iLCJpYXQiOjE3MTUxNDcyNTYsImV4cCI6MTcxNTIzMzY1Nn0.8P_Lz3KxDuBx2oZyBc9-SqVcNyzCmHOhNuMqZOBiekp7Gq6wEyrFKCIe3UV8mj7x";
+        JsonWebTokenResponse refresh = authService.refresh(refreshToken);
+        System.out.println(refresh.getAccessToken());
+    }
 }

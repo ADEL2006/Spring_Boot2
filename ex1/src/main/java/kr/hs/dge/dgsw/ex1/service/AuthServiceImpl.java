@@ -1,5 +1,6 @@
 package kr.hs.dge.dgsw.ex1.service;
 
+import io.jsonwebtoken.Claims;
 import kr.hs.dge.dgsw.ex1.dto.AuthenticationRequest;
 import kr.hs.dge.dgsw.ex1.dto.JsonWebTokenResponse;
 import kr.hs.dge.dgsw.ex1.dto.Member;
@@ -38,7 +39,15 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public JsonWebTokenResponse refresh(String Token) {
-        return null;
+    public JsonWebTokenResponse refresh(String token) {
+        Claims claims = jwtUtil.getClaims(token);
+        String email = claims.getSubject();
+        return JsonWebTokenResponse.builder()
+                .accessToken(
+                        jwtUtil.generateAccessToken(email)
+                )
+                .refreshToken(
+                        jwtUtil.generateRefreshToken(email)
+                ).build();
     }
 }
