@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService{
         );
         Member member = ((CustomUserDetails)authenticate.getPrincipal()).getMember();
 
-        JsonWebTokenResponse.builder().
+        return JsonWebTokenResponse.builder().
                 accessToken(
                         jwtUtil.generateAccessToken(member.getEmail())
                 )
@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService{
                         jwtUtil.generateRefreshToken(member.getEmail())
                 )
                 .build();
-        return null;
+
     }
 
     @Override
