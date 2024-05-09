@@ -30,13 +30,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // CSRF 비활성
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
-                authoeize ->
-                        authoeize
+                authorize ->
+                        authorize
                                 .requestMatchers("/auth/**")
                                 .permitAll()
-                                .anyRequest()
-                                .authenticated()
-        ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authenticationProvider(authenticationProvider()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                                .requestMatchers("/board/list")
+                                .permitAll()
+                                .anyRequest().authenticated()
+        ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authenticationProvider())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
