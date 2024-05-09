@@ -32,8 +32,10 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                 authoeize ->
                         authoeize
-                                .requestMatchers("/auth/**").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/auth/**")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
         ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authenticationProvider(authenticationProvider()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
