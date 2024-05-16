@@ -36,6 +36,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/board/list")
                                 .permitAll()
+                                .requestMatchers("/admin/**")
+                                .hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
         ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider())
