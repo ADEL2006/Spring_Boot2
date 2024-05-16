@@ -1,5 +1,6 @@
 package kr.hs.dge.dgsw.ex1.config;
 
+import kr.hs.dge.dgsw.ex1.handler.JwtAccessDeniedHandler;
 import kr.hs.dge.dgsw.ex1.handler.JwtAuthenticationEntryPoint;
 import kr.hs.dge.dgsw.ex1.jwt.filter.JwtAuthenticationFilter;
 import kr.hs.dge.dgsw.ex1.security.CustomUserDetailsService;
@@ -29,12 +30,16 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // CSRF 비활성
         http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(
-                        handlingConfigurer -> handlingConfigurer.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        handlingConfigurer -> handlingConfigurer
+                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                                .accessDeniedHandler(jwtAccessDeniedHandler)
                 )
                 .authorizeHttpRequests(
                 authorize ->
