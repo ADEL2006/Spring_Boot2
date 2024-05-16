@@ -54,15 +54,15 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            throw new IllegalArgumentException("Expired JWT token");
+            throw new JwtException("Expired JWT token");
         } catch (UnsupportedJwtException e) {
-            throw new IllegalArgumentException("Unsupported JWT token");
+            throw new JwtException("Unsupported JWT token");
         } catch (MalformedJwtException e) {
-            throw new IllegalArgumentException("Invalid JWT token");
+            throw new JwtException("Invalid JWT token");
         } catch (SignatureException e) {
-            throw new IllegalArgumentException("Invalid JWT token");
+            throw new JwtException("Invalid JWT token");
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("JWT claims string is empty");
+            throw new JwtException("JWT claims string is empty");
         }
     }
 
