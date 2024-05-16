@@ -1,5 +1,6 @@
 package kr.hs.dge.dgsw.ex1.config;
 
+import kr.hs.dge.dgsw.ex1.handler.JwtAuthenticationEntryPoint;
 import kr.hs.dge.dgsw.ex1.jwt.filter.JwtAuthenticationFilter;
 import kr.hs.dge.dgsw.ex1.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,16 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
 
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // CSRF 비활성
-        http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
+        http.csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(
+                        handlingConfigurer -> handlingConfigurer.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
+                .authorizeHttpRequests(
                 authorize ->
                         authorize
                                 .requestMatchers("/auth/**")
