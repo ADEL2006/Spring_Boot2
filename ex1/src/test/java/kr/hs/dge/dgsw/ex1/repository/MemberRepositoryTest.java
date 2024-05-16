@@ -34,4 +34,15 @@ class MemberRepositoryTest {
                     memberRepository.save(memberEntity);
                 });
     }
+
+    @Test
+    void testInsertAdmin() {
+        MemberEntity memberEntity = MemberEntity.builder()
+                .email("admin@aaa.com")
+                .password(passwordEncoder.encode("1234"))
+                .name("관리자")
+                .role(MemberRole.ADMIN)
+                .build();
+        memberRepository.save(memberEntity);
+    }
 }
