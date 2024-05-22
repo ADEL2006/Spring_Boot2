@@ -6,6 +6,7 @@ import kr.hs.dge.dgsw.ex1.security.MemberSecurity;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,10 @@ public class SampleController {
     @GetMapping("/test3")
     public void test3(Authentication authentication) {
         Member member = ((CustomUserDetails) authentication.getPrincipal()).getMember();
-        log.info("................. Member: ", member);
+        log.info("................. Member: {}", member);
+    }
+    @GetMapping("/test4")
+    public void test4(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        log.info(".............. Member: {}", customUserDetails.getMember());
     }
 }
