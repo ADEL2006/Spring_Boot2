@@ -16,7 +16,7 @@ public class SampleController {
 
     private final MemberSecurity memberSecurity;
 
-    @GetMapping
+    @GetMapping("/test1")
     public void test1() {
         Member member = memberSecurity.getMember();
         log.info("Member: {}", member);
