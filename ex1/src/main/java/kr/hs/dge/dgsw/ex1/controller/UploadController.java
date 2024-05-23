@@ -8,7 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +41,33 @@ public class UploadController {
                     originalName.lastIndexOf("\\") + 1
             );
             log.info("fileName: {}", fileName);
+
+            String folderPath = makeFolder();
+            log.info("folderPath: {}", folderPath);
+
+            String uuid = UUID.randomUUID().toString();
+
+            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "=" + fileName;
+            log.info("saveName: {}", saveName);
+            Path path = Paths.get(saveName);
+
+            try {
+                uploadFile.transferTo(path);
+            } catch (IOException e) {
+
+            }
         }
+    }
+
+    private String makeFolder() {
+        // str = "2024/05/23'
+        String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        // window: \, mac: /
+        String folderPath = str.replace("//", File.separator);
+        File uploadPathFolder = new File(uploadPath, folderPath);
+        if(!uploadPathFolder.exists()) {
+            uploadPathFolder.mkdirs();
+        }
+        return folderPath;
     }
 }
