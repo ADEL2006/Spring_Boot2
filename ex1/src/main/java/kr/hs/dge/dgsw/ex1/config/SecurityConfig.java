@@ -44,12 +44,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                 authorize ->
                         authorize
-                                .requestMatchers("/auth/**")
-                                .permitAll()
-                                .requestMatchers("/board/list")
-                                .permitAll()
-                                .requestMatchers("/admin/**")
-                                .hasAnyRole("ADMIN")
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/upload").permitAll()
+                                .requestMatchers("/board/list").permitAll()
+                                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
         ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
