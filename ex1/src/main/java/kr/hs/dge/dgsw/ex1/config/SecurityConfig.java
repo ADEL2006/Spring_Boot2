@@ -45,7 +45,7 @@ public class SecurityConfig {
                 authorize ->
                         authorize
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/upload").permitAll()
+                                .requestMatchers("/upload", "/display").permitAll()
                                 .requestMatchers("/board/list").permitAll()
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()

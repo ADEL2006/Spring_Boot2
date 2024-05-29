@@ -4,8 +4,11 @@ import kr.hs.dge.dgsw.ex1.dto.UploadResultDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -68,6 +74,22 @@ public class UploadController {
         return ResponseEntity.ok(
                 resultDTOList
         );
+    }
+
+    @GetMapping("/display")
+    public ResponseEntity<byte[]> getFile(@RequestParam("fileName") String fileName) {
+        ResponseEntity<byte[]> result = null;
+        try {
+            String srcFileName =  URLDecoder.decode(fileName, "UTF-8");
+            log.info("fileName: {}", srcFileName);
+            File file =  new File(uploadPath + File.separator + srcFileName);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", Files.probeContentType(file.toPath()));
+            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
+        }  catch (Exception e) {
+
+        }
+        return result;
     }
 
     private String makeFolder(){
