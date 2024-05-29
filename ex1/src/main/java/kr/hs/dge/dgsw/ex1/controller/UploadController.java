@@ -33,7 +33,6 @@ public class UploadController {
                 return;
             }
 
-
             String originalName = uploadFile.getOriginalFilename();
             // app.png
             // IE, Edge: C:\\upload\\app.png
