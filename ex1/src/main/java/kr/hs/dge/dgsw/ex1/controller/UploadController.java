@@ -29,35 +29,38 @@ public class UploadController {
     private String uploadPath;
 
     @PostMapping("/upload")
-    public ResponseEntity<List<UploadResultDTO>> uploadFile(@RequestParam("uploadFiles")List<MultipartFile> uploadFiles) {
-        List<UploadResultDTO> resultDTOList = new ArrayList<>();
-        for (MultipartFile uploadFile: uploadFiles) {
+    public ResponseEntity<List<UploadResultDTO>> uploadFile(
+            @RequestParam("uploadFiles") List<MultipartFile> uploadFiles
+    ) {
+
+        List<UploadResultDTO> resultDTOList
+                = new ArrayList<>();
+
+        for (MultipartFile uploadFile : uploadFiles) {
             // image/jpg, image/jpeg
             if (!uploadFile.getContentType().startsWith("image")) {
-                log.warn("This file is not image type");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
             String originalName = uploadFile.getOriginalFilename();
-            // app.png
-            // IE, Edge: C:\\upload\\app.png
-            String fileName =  originalName.substring(
+            String fileName = originalName.substring(
                     originalName.lastIndexOf("\\") + 1
             );
-            log.info("fileName: {}", fileName);
+            log.info("fileName : {}", fileName);
 
             String folderPath = makeFolder();
-            log.info("folderPath: {}", folderPath);
+            log.info("folderPath : {}", folderPath);
 
             String uuid = UUID.randomUUID().toString();
-
-            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "=" + fileName;
-            log.info("saveName: {}", saveName);
+            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName;
+            log.info("saveName : {}", saveName);
             Path path = Paths.get(saveName);
 
             try {
                 uploadFile.transferTo(path);
-                resultDTOList.add(new UploadResultDTO(fileName, uuid, folderPath));
+                resultDTOList.add(
+                        new UploadResultDTO(fileName, uuid, folderPath)
+                );
             } catch (IOException e) {
 
             }
@@ -67,15 +70,19 @@ public class UploadController {
         );
     }
 
-    private String makeFolder() {
-        // str = "2024/05/23'
-        String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        // window: \, mac: /
+    private String makeFolder(){
+        // str = "2024/05/29"
+        String str = LocalDate.now().format(
+                DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        );
+        // str = "2024/05/23"
         String folderPath = str.replace("//", File.separator);
         File uploadPathFolder = new File(uploadPath, folderPath);
-        if(!uploadPathFolder.exists()) {
+        if (!uploadPathFolder.exists()) {
             uploadPathFolder.mkdirs();
         }
         return folderPath;
     }
+
+
 }
