@@ -3,6 +3,7 @@ package kr.hs.dge.dgsw.ex1.controller;
 import kr.hs.dge.dgsw.ex1.dto.UploadResultDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -64,6 +65,9 @@ public class UploadController {
 
             try {
                 uploadFile.transferTo(path);
+                String thumbnailSavaName = uploadPath = File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
+                File thumbnailFile = new File(thumbnailSavaName);
+                Thumbnailator.createThumbnail(path.toFile(), thumbnailFile, 200, 200);
                 resultDTOList.add(
                         new UploadResultDTO(fileName, uuid, folderPath)
                 );

@@ -15,10 +15,10 @@ public class UploadResultDTO {
     private String uuid;
     private String folderPath;
 
-    public String getImageURL() {
+    public String getThumbnailURL() {
         try {
             // option + command + T
-            return URLEncoder.encode(folderPath + "/" + uuid + "_" + fileName, "UTF-8");
+            return URLEncoder.encode(folderPath + "/s_" + uuid + "_" + fileName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
 
         }
