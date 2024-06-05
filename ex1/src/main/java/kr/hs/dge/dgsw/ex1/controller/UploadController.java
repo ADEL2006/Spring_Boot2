@@ -37,9 +37,7 @@ public class UploadController {
 
     //2024%2F05%2F29%2Fe3dd32e1-eef4-4c6b-bc9e-76186e4a2f45_sample.png
     @PostMapping("/upload")
-    public ResponseEntity<List<UploadResultDTO>> uploadFile(
-            @RequestParam("uploadFiles") List<MultipartFile> uploadFiles
-    ) {
+    public ResponseEntity<List<UploadResultDTO>> uploadFile(@RequestParam("uploadFiles") List<MultipartFile> uploadFiles) {
 
         List<UploadResultDTO> resultDTOList
                 = new ArrayList<>();
@@ -91,9 +89,7 @@ public class UploadController {
     }
 
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(
-            @RequestParam("fileName") String fileName
-    ) {
+    public ResponseEntity<byte[]> getFile(@RequestParam("fileName") String fileName) {
         ResponseEntity<byte[]> result = null;
 
         try {
@@ -121,6 +117,19 @@ public class UploadController {
         }
 
         return result;
+    }
+
+    @PostMapping("/removeFile")
+    public ResponseEntity removeFile (String fileName) {
+        String srcFileName = null;
+        try {
+            srcFileName = URLDecoder.decode(fileName, "UTF-8");
+            File file = new File(uploadPath + File.separator + srcFileName);
+            boolean result = file.delete();
+            return ResponseEntity.ok(result);
+        } catch (UnsupportedEncodingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     private String makeFolder() {
