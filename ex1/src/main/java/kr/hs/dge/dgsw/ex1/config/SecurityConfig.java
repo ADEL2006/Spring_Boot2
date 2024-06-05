@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/upload/**", "/display", "/åremoveFile").permitAll()
+                                .requestMatchers("/upload/**", "/display", "/removeFile").permitAll()
                                 .requestMatchers("/board/list").permitAll()
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
 

@@ -120,7 +120,7 @@ public class UploadController {
     }
 
     @PostMapping("/removeFile")
-    public ResponseEntity removeFile (String fileName) {
+    public ResponseEntity removeFile (@RequestParam String fileName) {
         String srcFileName = null;
         try {
             srcFileName = URLDecoder.decode(fileName, "UTF-8");
