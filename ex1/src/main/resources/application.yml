@@ -4,7 +4,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/bootex
     username: bootuser
-    password: Bootuser123!@#
+    password: Bootuser12!@
 
   jpa:
     hibernate:
