@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class CustomUserDetails implements UserDetails {
@@ -19,15 +20,14 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(Member member) {
         this.member = member;
-        this.authorities = Collections.singleton(new SimpleGrantedAuthority(member.getRole().getKey()));
-//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        this.authorities
+        = Collections.singleton(new SimpleGrantedAuthority(member.getRole().getKey()));
+//        List<GrantedAuthority> grantedAuthorities
+//                = new ArrayList<>();
 //        grantedAuthorities.add(
-//                new SimpleGrantedAuthority(
-//                        member.getRole().getKey()
-//                )
+//                new SimpleGrantedAuthority(member.getRole().getKey())
 //        );
 //        this.authorities = grantedAuthorities;
-//        member.getRole().getKey(); // ROLE_USER
     }
 
     @Override

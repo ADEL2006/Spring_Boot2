@@ -15,9 +15,9 @@ class ReplyServiceTest {
     private ReplyService replyService;
 
     @Test
-    void testRegister() {
+    void testResiter() {
         ReplyDTO replyDTO = ReplyDTO.builder()
-                .bno(2L)
+                .bno(9L)
                 .text("test!!!")
                 .replyer("replyer")
                 .build();

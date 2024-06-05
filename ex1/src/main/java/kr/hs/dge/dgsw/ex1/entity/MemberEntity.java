@@ -1,8 +1,18 @@
 package kr.hs.dge.dgsw.ex1.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import kr.hs.dge.dgsw.ex1.entity.enums.MemberRole;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tbl_member")
@@ -23,4 +33,4 @@ public class MemberEntity extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
-}
+} // MemberEntity

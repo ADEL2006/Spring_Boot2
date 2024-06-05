@@ -19,10 +19,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MemberEntity memberEntity = memberRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-//        if(result.isEmpty()){
-//            throw new UsernameNotFoundException("User not found with username: " + username);
-//        }
+        // username(email)
+        MemberEntity memberEntity
+                = memberRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username : " + username));
+
         Member member = Member.builder()
                 .email(memberEntity.getEmail())
                 .password(memberEntity.getPassword())
@@ -32,4 +33,5 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return new CustomUserDetails(member);
     }
+
 }

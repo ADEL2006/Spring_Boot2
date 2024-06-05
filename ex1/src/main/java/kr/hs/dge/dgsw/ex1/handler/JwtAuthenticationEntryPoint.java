@@ -15,7 +15,6 @@ import java.util.Map;
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         // 401
@@ -27,6 +26,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         body.put("message", authException.getMessage());
         body.put("path", request.getServletPath());
         ObjectMapper mapper = new ObjectMapper();
+        // response 객체에 응답 객체를 넣어줌
         mapper.writeValue(response.getOutputStream(), body);
     }
 }

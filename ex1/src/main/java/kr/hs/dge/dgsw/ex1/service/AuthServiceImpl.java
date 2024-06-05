@@ -14,34 +14,31 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
     @Override
     public JsonWebTokenResponse auth(AuthenticationRequest request) {
-        Authentication authenticate =
-        authenticationManager.authenticate(
+        Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        Member member = ((CustomUserDetails)authenticate.getPrincipal()).getMember();
+        Member member = ((CustomUserDetails) authenticate.getPrincipal()).getMember();
 
-        return JsonWebTokenResponse.builder().
-                accessToken(
+        return JsonWebTokenResponse.builder()
+                .accessToken(
                         jwtUtil.generateAccessToken(member.getEmail())
                 )
                 .refreshToken(
                         jwtUtil.generateRefreshToken(member.getEmail())
-                )
-                .build();
-
+                ).build();
     }
 
     @Override
     public JsonWebTokenResponse refresh(String token) {
         Claims claims = jwtUtil.getClaims(token);
-        String email = claims.getSubject();
+        String email = claims.getSubject(); // subject <- email
         return JsonWebTokenResponse.builder()
                 .accessToken(
                         jwtUtil.generateAccessToken(email)

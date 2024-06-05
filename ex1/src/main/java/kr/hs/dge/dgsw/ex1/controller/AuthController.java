@@ -16,16 +16,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-
     @PostMapping("")
-    public ResponseEntity<JsonWebTokenResponse> auth(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<JsonWebTokenResponse> auth(@RequestBody AuthenticationRequest request){
         JsonWebTokenResponse jsonWebTokenResponse = authService.auth(request);
+
         return ResponseEntity.ok(jsonWebTokenResponse);
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JsonWebTokenResponse> refresh(@RequestBody RefreshTokenRequest request){
+    public ResponseEntity<JsonWebTokenResponse> refresh(
+            @RequestBody RefreshTokenRequest request
+            ){
         JsonWebTokenResponse jsonWebTokenResponse = authService.refresh(request.getRefreshToken());
         return ResponseEntity.ok(jsonWebTokenResponse);
     }
+
+
 }
+
+
+
+
+
+
+

@@ -5,12 +5,11 @@ import kr.hs.dge.dgsw.ex1.dto.JsonWebTokenResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.Authentication;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class AuthServiceImplTest {
+class AuthServiceTest {
     @Autowired
     private AuthService authService;
 
@@ -19,7 +18,9 @@ class AuthServiceImplTest {
         AuthenticationRequest request = new AuthenticationRequest();
         request.setEmail("user100@aaa.com");
         request.setPassword("1234");
+
         JsonWebTokenResponse jsonWebTokenResponse = authService.auth(request);
+
         System.out.println(jsonWebTokenResponse.getAccessToken());
         System.out.println();
         System.out.println(jsonWebTokenResponse.getRefreshToken());
@@ -27,8 +28,11 @@ class AuthServiceImplTest {
 
     @Test
     void testRefreshToken() {
-        String refreshToken = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ1c2VyMTAwQGFhYS5jb20iLCJpYXQiOjE3MTUxNDcyNTYsImV4cCI6MTcxNTIzMzY1Nn0.8P_Lz3KxDuBx2oZyBc9-SqVcNyzCmHOhNuMqZOBiekp7Gq6wEyrFKCIe3UV8mj7x";
+        String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTAwQGFhYS5jb20iLCJpYXQiOjE3MTUxNDczMDIsImV4cCI6MTcxNTIzMzcwMn0.PWx1LjHKHDISsdQ6LGuRSMILf9I8G0Sbdmk8alqukIg";
         JsonWebTokenResponse refresh = authService.refresh(refreshToken);
         System.out.println(refresh.getAccessToken());
     }
 }
+
+
+

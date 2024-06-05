@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         Map<String, Object> body = new HashMap<>();
@@ -25,6 +26,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         body.put("message", accessDeniedException.getMessage());
         body.put("path", request.getServletPath());
         ObjectMapper mapper = new ObjectMapper();
+        // response 객체에 응답 객체를 넣어줌
         mapper.writeValue(response.getOutputStream(), body);
     }
 }

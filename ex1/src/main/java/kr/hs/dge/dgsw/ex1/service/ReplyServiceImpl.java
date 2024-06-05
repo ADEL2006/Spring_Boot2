@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ReplyServiceImpl implements ReplyService{
+public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyRepository replyRepository;
 
@@ -26,8 +26,9 @@ public class ReplyServiceImpl implements ReplyService{
     public List<ReplyDTO> getList(Long bno) {
         BoardEntity boardEntity = BoardEntity.builder().bno(bno).build();
         List<ReplyEntity> result = replyRepository.findByBoardOrderByRno(boardEntity);
-        return result.stream().map(entity -> entityToDTO(entity)).toList();
-
+        return result.stream()
+                .map(entity -> entityToDTO(entity))
+                .toList();
     }
 
     @Override

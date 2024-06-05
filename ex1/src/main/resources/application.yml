@@ -4,7 +4,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/bootex
     username: bootuser
-    password: Bootuser12!@
+    password: Bootuser123!@#
 
   jpa:
     hibernate:
@@ -16,23 +16,33 @@ spring:
 
   servlet:
     multipart:
-      enabled: true # 파일업로드 가능 여부
-      # 업로드 파일의 임시 저장 경로
-      location: /Users/yang-wonjun/Desktop/upload
-      # window => C://upload
+      enabled: true # 파일업로드 가능여부
+      location: /Users/kimwongi/Desktop/upload
+      # 업로드 파일의 임시저장 경로
+      # window => C:\\upload
       max-file-size: 10MB # 파일 최대 사이즈
       max-request-size: 30MB # 전체 파일 사이즈
 
 project:
   upload:
-    path: /Users/yang-wonjun/Desktop/upload
-    # window => C://upload
+    path: /Users/kimwongi/Desktop/upload
+      # C:\\upload
+
+
 
 
 #JWT
 application:
   jwt:
-    secretKey:
-      b9601b0e91f9b639d06446765096744b809df8ff1095520bc71be5c1310206c0
-    expiration: 900000 #15분
-    refreshExpiration: 86400000 #1일
+    secretKey: b9601b0e91f9b639d06446765096744b809df8ff1095520bc71be5c1310206c0
+    expiration: 900000 # 15분
+    refreshExpiration: 86400000 # 1일
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,12 @@
 package kr.hs.dge.dgsw.ex1.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +22,7 @@ public class BoardDTO {
     private String content;
     private String memberEmail;
     private String memberName;
-    private Long replyCount;
-    private LocalDateTime createDate;
+    private long replyCount;
+    private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 }

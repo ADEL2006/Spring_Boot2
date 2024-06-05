@@ -3,9 +3,6 @@ package kr.hs.dge.dgsw.ex1.service;
 import kr.hs.dge.dgsw.ex1.dto.ReplyDTO;
 import kr.hs.dge.dgsw.ex1.entity.BoardEntity;
 import kr.hs.dge.dgsw.ex1.entity.ReplyEntity;
-import kr.hs.dge.dgsw.ex1.repository.ReplyRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,11 +12,11 @@ public interface ReplyService {
 
     List<ReplyDTO> getList(Long bno);
 
-    void modify(ReplyDTO dto);
+    void modify(ReplyDTO replyDTO);
 
-    void remove (Long rno);
+    void remove(Long rno);
 
-    default ReplyEntity dtoToEntity(ReplyDTO dto) {
+    default ReplyEntity dtoToEntity(ReplyDTO dto){
         BoardEntity boardEntity = BoardEntity.builder().bno(dto.getBno()).build();
         return ReplyEntity.builder()
                 .rno(dto.getRno())
@@ -29,7 +26,7 @@ public interface ReplyService {
                 .build();
     }
 
-    default ReplyDTO entityToDTO (ReplyEntity entity) {
+    default ReplyDTO entityToDTO(ReplyEntity entity){
         return ReplyDTO.builder()
                 .rno(entity.getRno())
                 .text(entity.getText())
@@ -37,6 +34,5 @@ public interface ReplyService {
                 .createdDate(entity.getCreatedDate())
                 .modifiedDate(entity.getModifiedDate())
                 .build();
-
     }
 }

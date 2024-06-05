@@ -35,6 +35,7 @@ public class UploadController {
     @Value("${project.upload.path}")
     private String uploadPath;
 
+    //2024%2F05%2F29%2Fe3dd32e1-eef4-4c6b-bc9e-76186e4a2f45_sample.png
     @PostMapping("/upload")
     public ResponseEntity<List<UploadResultDTO>> uploadFile(
             @RequestParam("uploadFiles") List<MultipartFile> uploadFiles
@@ -65,9 +66,18 @@ public class UploadController {
 
             try {
                 uploadFile.transferTo(path);
-                String thumbnailSavaName = uploadPath = File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
+                String thumbnailSavaName
+                        = uploadPath
+                        + File.separator
+                        + folderPath
+                        + File.separator
+                        + "s_" + uuid + "_" + fileName;
+
                 File thumbnailFile = new File(thumbnailSavaName);
+
                 Thumbnailator.createThumbnail(path.toFile(), thumbnailFile, 200, 200);
+
+
                 resultDTOList.add(
                         new UploadResultDTO(fileName, uuid, folderPath)
                 );
@@ -81,22 +91,39 @@ public class UploadController {
     }
 
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(@RequestParam("fileName") String fileName) {
+    public ResponseEntity<byte[]> getFile(
+            @RequestParam("fileName") String fileName
+    ) {
         ResponseEntity<byte[]> result = null;
+
         try {
-            String srcFileName =  URLDecoder.decode(fileName, "UTF-8");
-            log.info("fileName: {}", srcFileName);
-            File file =  new File(uploadPath + File.separator + srcFileName);
+            String srcFileName = URLDecoder.decode(fileName, "UTF-8");
+
+            log.info("fileName : {}", srcFileName);
+
+            File file = new File(
+                    uploadPath
+                            + File.separator
+                            + srcFileName
+            );
+
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", Files.probeContentType(file.toPath()));
-            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
-        }  catch (Exception e) {
+
+            result = new ResponseEntity<>(
+                    FileCopyUtils.copyToByteArray(file),
+                    headers,
+                    HttpStatus.OK
+            );
+
+        } catch (Exception e) {
 
         }
+
         return result;
     }
 
-    private String makeFolder(){
+    private String makeFolder() {
         // str = "2024/05/29"
         String str = LocalDate.now().format(
                 DateTimeFormatter.ofPattern("yyyy/MM/dd")

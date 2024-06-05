@@ -3,6 +3,7 @@ package kr.hs.dge.dgsw.ex1.config;
 import kr.hs.dge.dgsw.ex1.handler.JwtAccessDeniedHandler;
 import kr.hs.dge.dgsw.ex1.handler.JwtAuthenticationEntryPoint;
 import kr.hs.dge.dgsw.ex1.jwt.filter.JwtAuthenticationFilter;
+import kr.hs.dge.dgsw.ex1.jwt.filter.JwtExceptionFilter;
 import kr.hs.dge.dgsw.ex1.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,34 +26,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
     private final CustomUserDetailsService customUserDetailsService;
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // CSRF 비활성
-        http.csrf(AbstractHttpConfigurer::disable)
+
+        http
+                .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(
-                        handlingConfigurer -> handlingConfigurer
-                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                                .accessDeniedHandler(jwtAccessDeniedHandler)
+                        handlingConfigurer ->
+                                handlingConfigurer.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                                        .accessDeniedHandler(jwtAccessDeniedHandler)
                 )
+
                 .authorizeHttpRequests(
-                authorize ->
-                        authorize
+                        authorize -> authorize
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/upload", "/display").permitAll()
+.requestMatchers("/upload/**", "/display").permitAll()
                                 .requestMatchers("/board/list").permitAll()
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                                .anyRequest().authenticated()
-        ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+                                .anyRequest()
+                                .authenticated()
+                )
+.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+.addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
+
                 .authenticationProvider(authenticationProvider())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                ); // 세션을 사용하지 않음(STATELESS)
+
         return http.build();
     }
 
@@ -61,13 +67,15 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+            throws Exception {
         return configuration.getAuthenticationManager();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 
         authenticationProvider.setUserDetailsService(customUserDetailsService);
@@ -75,4 +83,6 @@ public class SecurityConfig {
 
         return authenticationProvider;
     }
+
+
 }

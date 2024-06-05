@@ -13,10 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MemberRepositoryTest {
-
     @Autowired
     private MemberRepository memberRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -27,7 +25,9 @@ class MemberRepositoryTest {
                 .forEach(i -> {
                     MemberEntity memberEntity = MemberEntity.builder()
                             .email("user" + i + "@aaa.com")
-                            .password(passwordEncoder.encode("1234"))
+                            .password(
+                                    passwordEncoder.encode("1234")
+                            )
                             .name("USER" + i)
                             .role(MemberRole.USER)
                             .build();
@@ -37,12 +37,17 @@ class MemberRepositoryTest {
 
     @Test
     void testInsertAdmin() {
-        MemberEntity memberEntity = MemberEntity.builder()
-                .email("admin@aaa.com")
+        MemberEntity memberEntity
+                = MemberEntity.builder()
+                .email("admin@aaa.com")//ID
                 .password(passwordEncoder.encode("1234"))
                 .name("관리자")
                 .role(MemberRole.ADMIN)
                 .build();
+
         memberRepository.save(memberEntity);
+
     }
+
+
 }
