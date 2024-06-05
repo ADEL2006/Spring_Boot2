@@ -120,12 +120,14 @@ public class UploadController {
     }
 
     @PostMapping("/removeFile")
-    public ResponseEntity removeFile (@RequestParam String fileName) {
+    public ResponseEntity removeFile (@RequestParam("fileName") String fileName) {
         String srcFileName = null;
         try {
             srcFileName = URLDecoder.decode(fileName, "UTF-8");
             File file = new File(uploadPath + File.separator + srcFileName);
             boolean result = file.delete();
+            File file2 = new File(uploadPath + File.separator + srcFileName);
+            boolean result2 = file.delete();
             return ResponseEntity.ok(result);
         } catch (UnsupportedEncodingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
