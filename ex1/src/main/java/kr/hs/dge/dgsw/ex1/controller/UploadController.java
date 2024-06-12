@@ -128,13 +128,17 @@ public class UploadController {
             File file = new File(uploadPath + File.separator + srcFileName);
             boolean result = file.delete();
 
-            String replace = srcFileName.replace("%2F", "/");
-            int last = replace.lastIndexOf("/");
-            srcFileName2 = replace.substring(0, last + 1) + "s_" + replace.substring(last + 1);
-            File file2 = new File(uploadPath + File.separator + srcFileName2);
-            boolean result2 = file2.delete();
+            // /Users/yangwonjun/Desktop/upload/2024/06/05
+            File thumbnailFile = new File(file.getParent(), "s_" + file.getName());
+            result = thumbnailFile.delete();
 
-            return ResponseEntity.ok(result + ", " + result2);
+//            String replace = srcFileName.replace("%2F", "/");
+//            int last = replace.lastIndexOf("/");
+//            srcFileName2 = replace.substring(0, last + 1) + "s_" + replace.substring(last + 1);
+//            File file2 = new File(uploadPath + File.separator + srcFileName2);
+//            boolean result2 = file2.delete();
+
+            return ResponseEntity.ok(result);
         } catch (UnsupportedEncodingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
