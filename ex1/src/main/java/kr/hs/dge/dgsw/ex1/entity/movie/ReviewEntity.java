@@ -1,6 +1,7 @@
 package kr.hs.dge.dgsw.ex1.entity.movie;
 
 import jakarta.persistence.*;
+import kr.hs.dge.dgsw.ex1.entity.BaseEntity;
 import kr.hs.dge.dgsw.ex1.entity.MemberEntity;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"movieEntity", "memberEntity"})
-public class ReviewEntity {
+public class ReviewEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
