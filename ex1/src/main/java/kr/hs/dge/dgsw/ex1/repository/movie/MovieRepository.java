@@ -1,4 +1,7 @@
 package kr.hs.dge.dgsw.ex1.repository.movie;
 
-public class MovieRepository {
+import kr.hs.dge.dgsw.ex1.entity.movie.MovieEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
 }
