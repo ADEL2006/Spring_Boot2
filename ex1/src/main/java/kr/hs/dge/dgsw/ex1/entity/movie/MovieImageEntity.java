@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
+@ToString(exclude = "movieEntity")
 public class MovieImageEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class MovieImageEntity extends BaseEntity {
     private String uuid;
     private String imgName;
     private String path;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private MovieEntity movieEntity;
 }
